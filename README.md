@@ -1,5 +1,7 @@
 # Global Terrorism Exploratory Data Analysis (1970–2017)
 
+## Dataset link- https://drive.google.com/file/d/1Y6oCRo-uYEE7163J1flnUzL7wXGQZZ3w/view?usp=sharing
+
 ## Project Overview
 
 This project performs an in-depth Exploratory Data Analysis (EDA) on the Global Terrorism Database (GTD), which contains information on over 181,000 terrorist incidents worldwide from 1970 to 2017.
