@@ -1,239 +1,43 @@
-# Global Terrorism Exploratory Data Analysis (1970–2017)
+# Global Terrorism EDA
 
-## Dataset link- https://drive.google.com/file/d/1Y6oCRo-uYEE7163J1flnUzL7wXGQZZ3w/view?usp=sharing
+Analysis of 181,691 terrorist incidents from 1970 to 2017.
 
-## Project Overview
+Dataset: Global Terrorism Database (GTD) from Kaggle. 135 columns originally, reduced to 14.
 
-This project performs an in-depth Exploratory Data Analysis (EDA) on the Global Terrorism Database (GTD), which contains information on over 181,000 terrorist incidents worldwide from 1970 to 2017.
+Dataset link: https://drive.google.com/file/d/1Y6oCRo-uYEE7163J1flnUzL7wXGQZZ3w/view?usp=sharing
 
-The objective of this analysis is to uncover long-term terrorism trends, identify the most affected countries and regions, study attack methods and casualty patterns, and generate data-driven security and policy recommendations.
+## What I did
 
-The project goes beyond simple chart creation by focusing on:
-- analytical storytelling,
-- quantified insights,
-- derived feature engineering,
-- temporal trend analysis,
-- geographic visualization,
-- and business/policy impact.
+- Dropped 77 columns that had over 100K missing values, then picked 14 columns that actually matter for analysis
+- Missing cities: filled using the most common city per country (groupby mode), not a global fill
+- Missing casualties: used fillna(0) but kept the original values in separate columns (nkill_raw, nwound_raw) so I can track what was imputed. Also made a casualty_unknown flag for rows where data was originally missing, and a casualty_suspect flag for pre-1990 incidents where zero might mean "not recorded" rather than "no one died"
+- Created 9 features: total_casualties, kill_ratio, decade, yoy_change, casualty_severity, high_fatality, casualty_unknown, casualty_suspect, casualties_per_attack
+- Made 17 charts covering countries, cities, regions, attack types, time trends, severity, groups, and a folium map
 
----
+## Main findings
 
-## Dataset Information
+Iraq has 213,279 casualties — 22% of the global total and more than the next 4 countries combined. Baghdad alone has 80,363.
 
-- Dataset: Global Terrorism Database (GTD)
-- Source: START Consortium / Kaggle
-- Time Period: 1970–2017
-- Total Incidents: 181,691
-- Original Features: 135 columns
-- Final Analytical Features Used: 14 core columns + 9 derived features
+Bombing causes the most casualties (530,007) but has the lowest kill ratio (0.18). Assassination has the highest kill ratio (0.71) but far fewer total casualties. Volume beats lethality.
 
----
+77.5% of all casualties happen in 3 regions: Middle East, South Asia, Sub-Saharan Africa.
 
-## Project Objectives
+Syria has 13.33 casualties per attack — the highest of any country — but ranks only 7th in total. So total counts miss per-incident severity.
 
-- Analyze how terrorism trends changed over time
-- Identify the countries and cities with highest casualties
-- Study how attack methods evolved across decades
-- Explore relationships between attack success and casualties
-- Understand regional concentration of terrorism
-- Detect high-lethality countries and attack types
-- Generate actionable counter-terrorism recommendations
+Attack counts went from 651 in 1970 to 16,903 in 2014. The spikes line up with the Iranian Revolution (1979), 9/11 (2001), Arab Spring (2011), and ISIS (2014).
 
----
+90% of attacks have zero or low casualties. The devastating ones get media coverage, which creates a perception that most attacks are catastrophic. They're not.
 
-## Technologies Used
+## Tools
 
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Folium
-- Jupyter Notebook
-- Tableau
+Python, pandas, matplotlib, seaborn, folium
 
----
+## How to run
 
-## Data Cleaning & Wrangling
+Open the notebook in Colab or Jupyter. Use `encoding='latin1'` when loading the CSV.
 
-The project includes extensive preprocessing and analytical wrangling:
+## What I'd improve
 
-- Reduced dataset from 135 columns to the most relevant analytical features
-- Group-based imputation:
-  - Missing cities filled using country-wise mode
-  - Missing latitude/longitude filled using country-wise mean
-- Preserved original casualty columns before imputation
-- Created data-quality flags:
-  - `casualty_unknown`
-  - `casualty_suspect`
-- Handled missing casualty values conservatively using `fillna(0)`
-- Created proper datetime columns
-- Built missing-value analysis tables
-- Performed distribution analysis before imputation
-
----
-
-## Derived Features
-
-The following analytical features were engineered:
-
-- `total_casualties`
-- `kill_ratio`
-- `decade`
-- `yoy_change`
-- `casualty_severity`
-- `high_fatality`
-- `casualty_unknown`
-- `casualty_suspect`
-- `casualties_per_attack`
-
-These features enabled deeper multi-dimensional analysis beyond the raw dataset.
-
----
-
-## Key Insights
-
-### 1. Iraq experienced the highest terrorism impact
-- Iraq recorded **213,279 casualties**
-- This accounts for approximately **22% of all casualties**
-- Iraq alone had casualties comparable to the next 4 countries combined
-
-### 2. Baghdad was the most affected city
-- Baghdad recorded **80,363 casualties**
-- Nearly **38% of Iraq’s total casualties** occurred in Baghdad
-
-### 3. Terrorism is highly region-concentrated
-The top 3 regions:
-- Middle East & North Africa
-- South Asia
-- Sub-Saharan Africa
-
-accounted for approximately:
-
-- **77.5% of all casualties**
-
-### 4. Bombings caused the highest casualties despite low lethality
-- Bombing/Explosion attacks caused:
-  - **530,007 total casualties**
-- But had a relatively low:
-  - **0.18 kill ratio**
-
-This revealed an important insight:
-
-> volume beats lethality.
-
-### 5. Assassination attacks were the deadliest attack type
-- Assassinations had the highest kill ratio:
-  - **0.71**
-- Meaning 71% of casualties in assassination attacks resulted in deaths.
-
-### 6. Syria had the highest casualties per attack
-- Syria recorded:
-  - **13.33 casualties per attack**
-- Despite not ranking highest in total casualties.
-
-This revealed that:
-- some countries experience fewer,
-- but significantly deadlier incidents.
-
-### 7. Terrorism increased dramatically over time
-- Incidents increased from:
-  - **651 attacks in 1970**
-  - to **16,903 attacks in 2014**
-
-Major spikes aligned with:
-- Iranian Revolution (1979)
-- 9/11 (2001)
-- Arab Spring (2011)
-- ISIS peak activity (2014)
-
----
-
-## Visualizations Included
-
-This project contains 17 visualizations including:
-
-- Attacks over time
-- YoY trend analysis
-- Regional comparisons
-- Country casualty analysis
-- Attack type evolution by decade
-- Pair plots
-- Correlation heatmaps
-- Severity distributions
-- Geographic Folium map
-- Casualties-per-attack analysis
-- Target and weapon analysis
-
----
-
-## Geographic Analysis
-
-An interactive Folium map was created using 5,000 sampled incidents to visualize the global geographic spread of terrorism.
-
-The map visually confirmed the concentration of attacks in:
-- the Middle East,
-- South Asia,
-- and parts of Africa.
-
----
-
-## Business & Policy Recommendations
-
-### 1. Prioritize High-Risk Regions
-Since 77.5% of casualties are concentrated in 3 regions, counter-terrorism resources should heavily prioritize:
-- Middle East & North Africa
-- South Asia
-- Sub-Saharan Africa
-
-### 2. Focus on Counter-IED Technologies
-Bombings account for the highest casualties globally. Investments in:
-- bomb detection,
-- explosive tracing,
-- surveillance,
-- and counter-IED systems
-should receive highest priority.
-
-### 3. Prevention Is More Effective Than Reaction
-Even failed attacks produced casualties on average.
-
-This suggests:
-- early detection,
-- financial monitoring,
-- intelligence gathering,
-- and surveillance
-are more effective than post-incident response alone.
-
-### 4. Improve Emergency Medical Response
-Countries with high kill ratios may benefit from:
-- improved trauma care,
-- emergency response systems,
-- and faster medical intervention.
-
----
-
-## Data Limitations
-
-- Missing casualty data may underestimate older incidents
-- Some attacks remain unattributed to known groups
-- Dataset ends in 2017
-- Geographic imputations may slightly distort city-level patterns
-
-These limitations were explicitly acknowledged to maintain analytical transparency.
-
-
----
-
-## Conclusion
-
-This project evolved from a basic visualization exercise into a full analytical EDA focused on:
-- data storytelling,
-- feature engineering,
-- business interpretation,
-- and interview-ready analysis.
-
-The analysis demonstrates that effective EDA is not about creating charts alone, but about:
-- uncovering meaningful patterns,
-- questioning assumptions,
-- connecting findings,
-- and translating data into actionable insight.
+- Normalize by country population to get per-capita rates
+- Build a Tableau dashboard for the main findings
+- Look at post-2017 data if it becomes available
